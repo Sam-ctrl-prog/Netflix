@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Next-Gen Knowledge Companion | Retain Smarter. Not Harder.</title>
+  <style>
+    /* Reset & Base Styles */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --primary-blue: #1a73e8;
+      --primary-pink: #e1306c;
+      --light-gray: #777;
+      --off-white: #fafafa;
+      --shadow-light: 0 2px 10px rgba(0, 0, 0, 0.05);
+      --shadow-medium: 0 5px 15px rgba(0, 0, 0, 0.1);
+      --shadow-heavy: 0 8px 30px rgba(0, 0, 0, 0.15);
+      --border-radius: 12px;
+      --transition-standard: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3, h4 {
+      line-height: 1.2;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    /* Button Styles */
+    .btn {
+      display: inline-block;
+      padding: 1rem 2rem;
+      border-radius: 30px;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition-standard);
+      border: none;
+      outline: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-blue), var(--primary-pink));
+      color: white;
+      box-shadow: var(--shadow-medium);
+    }
+
+    .btn-primary:hover {
+      transform: scale(1.05);
+      box-shadow: var(--shadow-heavy);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--primary-blue);
+      border: 2px solid var(--primary-blue);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(26, 115, 232, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(26, 115, 232, 0.4); }
+      70% { box-shadow: 0 0 0 10px rgba(26, 115, 232, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(26, 115, 232, 0); }
+    }
+
+    /* Header & Navigation */
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(5px);
+      box-shadow: var(--shadow-light);
+      z-index: 1000;
+      padding: 1rem 0;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary-blue), var(--primary-pink));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: fadeIn 1s ease-out;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    .nav-link {
+      font-weight: 500;
+      position: relative;
+      padding: 0.5rem 0;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary-blue), var(--primary-pink));
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      background: var(--primary-blue);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      transition: var(--transition-standard);
+    }
+
+    .nav-cta:hover {
+      background: var(--primary-pink);
+      transform: translateY(-2px);
+    }
+
+    /* Hamburger Menu */
+    .hamburger-menu {
+      display: none;
+    }
+
+    #menu-toggle {
+      display: none;
+    }
+
+    .menu-btn {
+      display: none;
+      cursor: pointer;
+      padding: 10px;
+    }
+
+    .menu-btn span,
+    .menu-btn span::before,
+    .menu-btn span::after {
+      display: block;
+      width: 25px;
+      height: 3px;
+      background-color: var(--primary-blue);
+      transition: var(--transition-standard);
+    }
+
+    .menu-btn span::before {
+      content: '';
+      transform: translateY(-8px);
+    }
+
+    .menu-btn span::after {
+      content: '';
+      transform: translateY(5px);
+    }
+
+    /* Hero Section */
+    .hero {
+      min-height: 85vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(225, 48, 108, 0.1), rgba(26, 115, 232, 0.05));
+      top: -200px;
+      right: -100px;
+      z-index: -1;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(26, 115, 232, 0.1), rgba(225, 48, 108, 0.05));
+      bottom: -200px;
+      left: -100px;
+      z-index: -1;
+    }
+
+    .hero-container {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .hero-content {
+      flex: 1;
+      animation: fadeIn 1s ease-out;
+    }
+
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #333, var(--primary-blue));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: slideUp 1s ease-out;
+    }
+
+    .hero-subtitle {
+      font-size: 1.3rem;
+      color: var(--light-gray);
+      margin-bottom: 2rem;
+      max-width: 540px;
+      animation: slideUp 1s ease-out 0.2s;
+      opacity: 0;
+      animation-fill-mode: forwards;
+    }
+
+    .hero-cta {
+      animation: slideUp 1s ease-out 0.4s, pulse 2s infinite 3s;
+      opacity: 0;
+      animation-fill-mode: forwards;
+    }
+
+    .hero-image {
+      flex: 1;
+      position: relative;
+      animation: fadeIn 1.5s ease-out 0.5s;
+      opacity: 0;
+      animation-fill-mode: forwards;
+    }
+
+    .phone-mockup {
+      width: 300px;
+      height: 600px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 40px;
+      box-shadow: var(--shadow-heavy);
+      position: relative;
+      overflow: hidden;
+      border: 8px solid #333;
+    }
+
+    .phone-header {
+      height: 60px;
+      background: var(--primary-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+    }
+
+    .phone-content {
+      height: calc(100% - 60px);
+      padding: 1rem;
+      display: flex;  
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .preview-card {
+      background: var(--off-white);
+      border-radius: var(--border-radius);
+      padding: 1rem;
+      box-shadow: var(--shadow-light);
+    }
+
+    .card-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .card-text {
+      font-size: 0.8rem;
+      color: var(--light-gray);
+    }
+
+    /* Features Section */
+    .features {
+      padding: 5rem 0;
+      background-color: var(--off-white);
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 3rem;
+      animation: slideUp 1s ease-out;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 2rem;
+      box-shadow: var(--shadow-light);
+      transition: var(--transition-standard);
+      animation: slideUp 0.8s ease-out;
+      opacity: 0;
+      animation-fill-mode: forwards;
+    }
+
+    .feature-card:nth-child(1) {
+      animation-delay: 0.1s;
+    }
+
+    .feature-card:nth-child(2) {
+      animation-delay: 0.3s;
+    }
+
+    .feature-card:nth-child(3) {
+      animation-delay: 0.5s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: var(--shadow-heavy);
+    }
+
+    .feature-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .feature-title {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .feature-description {
+      color: var(--light-gray);
+    }
+
+    /* Showcase Section */
+    .showcase {
+      padding: 5rem 0;
+    }
+
+    .showcase-item {
+      display: flex;
+      align-items: center;
+      gap: 4rem;
+      margin-bottom: 5rem;
+    }
+
+    .showcase-item:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+
+    .showcase-content {
+      flex: 1;
+    }
+
+    .showcase-title {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .showcase-description {
+      color: var(--light-gray);
+      margin-bottom: 1.5rem;
+    }
+
+    .showcase-image {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* Testimonials Section */
+    .testimonials {
+      padding: 5rem 0;
+      background-color: var(--off-white);
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .testimonial-card {
+      background: white;
+      border-radius: var(--border-radius);
+      padding: 2rem;
+      box-shadow: var(--shadow-light);
+      position: relative;
+      transition: var(--transition-standard);
+    }
+
+    .testimonial-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-medium);
+    }
+
+    .testimonial-text {
+      font-style: italic;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .testimonial-text::before {
+      content: '"';
+      font-size: 3rem;
+      position: absolute;
+      top: -20px;
+      left: -15px;
+      color: rgba(26, 115, 232, 0.1);
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary-blue), var(--primary-pink));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+    }
+
+    .author-info {
+      line-height: 1.2;
+    }
+
+    .author-name {
+      font-weight: 600;
+    }
+
+    .author-title {
+      font-size: 0.8rem;
+      color: var(--light-gray);
+    }
+
+    /* CTA Banner */
+    .cta-banner {
+      padding: 4rem 0;
+      background: linear-gradient(135deg, var(--primary-blue), var(--primary-pink));
+      color: white;
+      text-align: center;
+    }
+
+    .cta-title {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .cta-subtitle {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      opacity: 0.9;
+    }
+
+    .cta-btn {
+      background: white;
+      color: var(--primary-blue);
+      font-weight: 700;
+      padding: 1.2rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-btn::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary-blue), var(--primary-pink));
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-3px);
+    }
+
+    .cta-btn:hover::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    /* Footer */
+    footer {
+      background: #f1f3f5;
+      padding: 3rem 0;
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, var(--primary-blue), var(--primary-pink));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      list-style: none;
+      margin-bottom: 1.5rem;
+    }
+
+    .footer-link {
+      color: var(--light-gray);
+      transition: var(--transition-standard);
+    }
+
+    .footer-link:hover {
+      color: var(--primary-blue);
+      transform: translateY(-2px);
+    }
+
+    .copyright {
+      color: var(--light-gray);
+      font-size: 0.9rem;
+    }
+
+    /* Media Queries */
+    @media (max-width: 992px) {
+      .hero-title {
+        font-size: 2.8rem;
+      }
+
+      .showcase-item {
+        gap: 2rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .menu-btn {
+        display: block;
+        z-index: 1001;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        height: 100vh;
+        width: 70%;
+        max-width: 300px;
+        background: white;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+        box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+        transition: right 0.3s ease;
+        z-index: 1000;
+      }
+
+      #menu-toggle:checked ~ .nav-links {
+        right: 0;
+      }
+
+      #menu-toggle:checked ~ .menu-btn span {
+        background-color: transparent;
+      }
+
+      #menu-toggle:checked ~ .menu-btn span::before {
+        transform: rotate(45deg) translate(0px, 0px);
+      }
+
+      #menu-toggle:checked ~ .menu-btn span::after {
+        transform: rotate(-45deg) translate(5px, -5px);
+      }
+
+      .hero-container {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .hero-subtitle {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .showcase-item {
+        flex-direction: column !important;
+      }
+
+      .showcase-item {
+        gap: 2rem;
+      }
+
+      .phone-mockup {
+        width: 250px;
+        height: 500px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hero-title {
+        font-size: 2.2rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .cta-title {
+        font-size: 2rem;
+      }
+
+      .footer-links {
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header & Navigation -->
+  <header>
+    <nav class="navbar container">
+      <a href="#" class="logo">Next-Gen</a>
+      <input type="checkbox" id="menu-toggle">
+      <label for="menu-toggle" class="menu-btn">
+        <span></span>
+      </label>
+      <ul class="nav-links">
+        <li><a href="#features" class="nav-link">Features</a></li>
+        <li><a href="#showcase" class="nav-link">How It Works</a></li>
+        <li><a href="#" class="nav-link">Login</a></li>
+        <li><a href="#" class="nav-cta">Get Started</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-container">
+      <div class="hero-content">
+        <h1 class="hero-title">Retain Smarter.<br>Not Harder.</h1>
+        <p class="hero-subtitle">Turn articles, videos, and notes into flashcards, mind maps, and summaries — powered by AI.</p>
+        <a href="#" class="btn btn-primary hero-cta">Try It Free</a>
+      </div>
+      <div class="hero-image">
+        <div class="phone-mockup">
+          <div class="phone-header">Next-Gen Knowledge</div>
+          <div class="phone-content">
+            <div class="preview-card">
+              <div class="card-title">Article: Machine Learning Basics</div>
+              <div class="card-text">Created 8 flashcards and mindmap</div>
+            </div>
+            <div class="preview-card">
+              <div class="card-title">YouTube: Quantum Physics</div>
+              <div class="card-text">Summary + 12 key concepts identified</div>
+            </div>
+            <div class="preview-card">
+              <div class="card-title">Notes: Spanish Vocabulary</div>
+              <div class="card-text">Study sequence optimized</div>
+            </div>
+            <div class="preview-card">
+              <div class="card-title">Book: Psychology of Persuasion</div>
+              <div class="card-text">Chapter summaries + exercises</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="features">
+    <div class="container">
+      <h2 class="section-title">Transform How You Learn</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📚</div>
+          <h3 class="feature-title">Smart Content Conversion</h3>
+          <p class="feature-description">Instantly transform any content into personalized study materials.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🧠</div>
+          <h3 class="feature-title">Memory Optimization</h3>
+          <p class="feature-description">AI-powered spaced repetition for maximum knowledge retention.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🗺️</div>
+          <h3 class="feature-title">Visual Learning</h3>
+          <p class="feature-description">Generate mind maps and visual aids to connect concepts.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Showcase Section -->
+  <section id="showcase" class="showcase">
+    <div class="container">
+      <div class="showcase-item">
+        <div class="showcase-content">
+          <h3 class="showcase-title">1. Import Any Content</h3>
+          <p class="showcase-description">Simply paste links, upload notes, or record voice memos. Next-Gen processes articles, videos, PDFs, and more in seconds.</p>
+          <a href="#" class="btn btn-secondary">Learn More</a>
+        </div>
+        <div class="showcase-image">
+          <div class="phone-mockup">
+            <div class="phone-header">Import Content</div>
+            <div class="phone-content" style="justify-content: center; align-items: center; text-align: center; gap: 1rem;">
+              <div style="font-size: 3rem;">📥</div>
+              <p style="font-weight: 600;">Drop content here</p>
+              <p style="color: var(--light-gray); font-size: 0.9rem;">Paste URL, upload file, or record</p>
+              <div style="background: var(--primary-blue); color: white; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.9rem;">Select Source</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-item">
+        <div class="showcase-content">
+          <h3 class="showcase-title">2. AI Transforms Content</h3>
+          <p class="showcase-description">Our AI analyzes the material, extracts key concepts, and creates optimized learning resources tailored to your learning style.</p>
+          <a href="#" class="btn btn-secondary">See Examples</a>
+        </div>
+        <div class="showcase-image">
+          <div class="phone-mockup">
+            <div class="phone-header">Processing Content</div>
+            <div class="phone-content" style="justify-content: center; gap: 1.5rem; padding: 2rem;">
+              <div style="height: 10px; width: 100%; background: #f0f0f0; border-radius: 5px; overflow: hidden;">
+                <div style="height: 100%; width: 75%; background: var(--primary-blue);"></div>
+              </div>
+              <p style="text-align: center; font-weight: 600;">Analyzing key concepts</p>
+              <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center;">
+                <span style="background: #f0f0f0; padding: 0.25rem 0.5rem; border-radius: 15px; font-size: 0.8rem;">Concept 1</span>
+                <span style="background: #f0f0f0; padding: 0.25rem 0.5rem; border-radius: 15px; font-size: 0.8rem;">Concept 2</span>
+                <span style="background: #f0f0f0; padding: 0.25rem 0.5rem; border-radius: 15px; font-size: 0.8rem;">Concept 3</span>
+                <span style="background: #f0f0f0; padding: 0.25rem 0.5rem; border-radius: 15px; font-size: 0.8rem;">Concept 4</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-item">
+        <div class="showcase-content">
+          <h3 class="showcase-title">3. Study Smarter</h3>
+          <p class="showcase-description">Access your personalized flashcards, summaries, and mind maps anytime. Our system adapts to focus on areas where you need the most help.</p>
+          <a href="#" class="btn btn-secondary">Start Learning</a>
+        </div>
+        <div class="showcase-image">
+          <div class="phone-mockup">
+            <div class="phone-header">Study Materials</div>
+            <div class="phone-content">
+              <div class="preview-card" style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <div class="card-title">Flashcards</div>
+                  <div class="card-text">42 cards</div>
+                </div>
+                <div style="background: var(--primary-pink); color: white; padding: 0.25rem 0.5rem; border-radius: 15px; font-size: 0.7rem;">Study Now</div>
+              </div>
+              <div class="preview-card" style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <div class="card-title">Mind Maps</div>
+                  <div class="card-text">3 maps</div>
+                </div>
+                <div style="background: var(--primary-blue); color: white; padding: 0.25rem 0.5rem; border-radius: 15px; font-size: 0.7rem;">View</div>
+              </div>
+              <div class="preview-card" style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <div class="card-title">Summary Notes</div>
+                  <div class="card-text">5 pages</div>
+                </div>
+                <div style="background: var(--primary-blue); color: white; padding: 0.25rem 0.5rem; border-radius: 15px; font-size: 0.7rem;">Read</div>
+              </div>
+              <div class="preview-card" style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                  <div class="card-title">Practice Quiz</div>
+                  <div class="card-text">15 questions</div>
+                </div>
+                <div style="background: var(--primary-blue); color: white; padding: 0.25rem 0.5rem; border-radius: 15px; font-size: 0.7rem;">Start</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="testimonials">
+    <div class="container">
+      <h2 class="section-title">What Our Users Say</h2>
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <p class="testimonial-text">Next-Gen completely transformed how I prepare for exams. I'm retaining more information with less time spent studying.</p>
+          <div class="testimonial-author">
+            <div class="avatar">S</div>
+            <div class="author-info">
+              <div class="author-name">Sarah K.</div>
+              <div class="author-title">Medical Student</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-text">The mind mapping feature helped me understand connections between concepts that I was missing. My grades have improved dramatically.</p>
+          <div class="testimonial-author">
+            <div class="avatar">M</div>
+            <div class="author-info">
+              <div class="author-name">Michael T.</div>
+              <div class="author-title">Engineering Major</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <p class="testimonial-text">As a language learner, the spaced repetition system is exactly what I needed. I'm picking up vocabulary faster than ever.</p>
+          <div class="testimonial-author">
+            <div class="avatar">J</div>
+            <div class="author-info">
+              <div class="author-name">Jenna W.</div>
+              <div class="author-title">Language Enthusiast</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section class="cta-banner">
+    <div class="container">
+      <h2 class="cta-title">Ready to Transform Your Learning?</h2>
+      <p class="cta-subtitle">Join 10,000+ lifelong learners using Next-Gen to remember more and forget less.</p>
+      <a href="#" class="btn cta-btn">Start For Free</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-logo">Next-Gen</div>
+      <ul class="footer-links">
+        <li><a href="#" class="footer-link">Terms</a></li>
+        <li><a href="#" class="footer-link">Privacy</a></li>
+        <li><a href="#" class="footer-link">Twitter</a></li>
+        <li><a href="#" class="footer-link">Contact</a></li>
+      </ul>
+      <p class="copyright">&copy; 2025 Next-Gen Knowledge Companion. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

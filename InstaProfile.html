@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alex Morgan | Frontend Developer</title>
+    <style>
+        /* Reset and Base Styles */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary: #1a73e8;
+            --secondary: #e1306c;
+            --accent: #6c5ce7;
+            --bg-light: #f8f9fa;
+            --text-dark: #212529;
+            --text-muted: #6c757d;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 30px;
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 2rem;
+            --space-lg: 4rem;
+            --space-xl: 8rem;
+        }
+
+        body {
+            font-family: 'Inter', 'Roboto', system-ui, sans-serif;
+            line-height: 1.5;
+            color: var(--text-dark);
+            background-color: var(--bg-light);
+            overflow-x: hidden;
+        }
+
+        section {
+            padding: var(--space-lg) var(--space-md);
+            margin: 0 auto;
+            max-width: 1200px;
+        }
+
+        h1, h2, h3, h4, h5 {
+            line-height: 1.2;
+            margin-bottom: var(--space-sm);
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+        }
+
+        h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: var(--space-md);
+        }
+
+        h3 {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+        }
+
+        p {
+            margin-bottom: var(--space-md);
+            font-size: clamp(1rem, 2vw, 1.1rem);
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--space-md);
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 12px 28px;
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Header & Navigation */
+        header {
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
+            padding: var(--space-xs) 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-xs) var(--space-md);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            z-index: 1001;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: var(--space-md);
+        }
+
+        .nav-link {
+            position: relative;
+            font-weight: 500;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Mobile Navigation Toggle */
+        .menu-toggle {
+            display: none;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            right: -100px;
+            width: 600px;
+            height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(108, 92, 231, 0.2) 0%, rgba(225, 48, 108, 0.05) 60%, transparent 70%);
+            z-index: -1;
+            animation: pulse 8s infinite alternate;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -150px;
+            left: -100px;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(26, 115, 232, 0.15) 0%, rgba(108, 92, 231, 0.05) 60%, transparent 70%);
+            z-index: -1;
+            animation: pulse 10s infinite alternate-reverse;
+        }
+
+        .hero-content {
+            display: flex;
+            align-items: center;
+            gap: var(--space-lg);
+        }
+
+        .hero-text {
+            flex: 1;
+            animation: slideUp 0.8s ease-out forwards;
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            animation: fadeIn 1s ease-out 0.3s forwards;
+            opacity: 0;
+        }
+
+        .profile-img {
+            width: 360px;
+            height: 360px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: var(--shadow-lg);
+            border: 8px solid white;
+            animation: pulse 6s infinite alternate;
+        }
+
+        .hero-subtitle {
+            color: var(--secondary);
+            font-weight: 600;
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            margin-bottom: var(--space-xs);
+            animation: fadeIn 1s ease-out 0.5s forwards;
+            opacity: 0;
+        }
+
+        .headline {
+            margin-bottom: var(--space-sm);
+        }
+
+        .hero-description {
+            color: var(--text-muted);
+            margin-bottom: var(--space-md);
+            max-width: 500px;
+            animation: fadeIn 1s ease-out 0.7s forwards;
+            opacity: 0;
+        }
+
+        .cta-btn {
+            animation: fadeIn 1s ease-out 0.9s forwards;
+            opacity: 0;
+        }
+
+        /* Services Section */
+        .services {
+            padding-top: var(--space-xl);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: var(--space-lg);
+        }
+
+        .section-title h2 {
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-md);
+        }
+
+        .service-card {
+            background: white;
+            border-radius: var(--radius-md);
+            padding: var(--space-md);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: var(--space-sm);
+        }
+
+        .service-title {
+            margin-bottom: var(--space-xs);
+            font-size: 1.3rem;
+        }
+
+        .service-desc {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-bottom: 0;
+        }
+
+        /* Projects Section */
+        .projects {
+            padding-top: var(--space-xl);
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--space-md);
+        }
+
+        .project-card {
+            background: white;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .project-img {
+            height: 200px;
+            background-color: #e9ecef;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .project-content {
+            padding: var(--space-md);
+        }
+
+        .project-title {
+            margin-bottom: var(--space-xs);
+        }
+
+        .project-desc {
+            color: var(--text-muted);
+            margin-bottom: var(--space-sm);
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: var(--space-sm);
+        }
+
+        .tech-tag {
+            background-color: #e9ecef;
+            color: var(--text-muted);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .project-links {
+            display: flex;
+            gap: var(--space-xs);
+        }
+
+        .project-links .btn {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+
+        /* Skills Section */
+        .skills {
+            padding-top: var(--space-xl);
+        }
+
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .skill-pill {
+            background: white;
+            color: var(--text-dark);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 500;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .skill-pill:hover {
+            transform: scale(1.1);
+            color: white;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            box-shadow: var(--shadow-md);
+        }
+
+        /* About Section */
+        .about {
+            padding-top: var(--space-xl);
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: var(--space-lg);
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .quote {
+            position: relative;
+            font-style: italic;
+            padding: var(--space-md);
+            margin: var(--space-md) 0;
+            background-color: white;
+            border-left: 4px solid var(--primary);
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .quote::before {
+            content: """;
+            font-size: 4rem;
+            position: absolute;
+            left: 10px;
+            top: -20px;
+            color: var(--primary);
+            opacity: 0.2;
+        }
+
+        .signature {
+            font-family: 'Brush Script MT', cursive;
+            font-size: 2rem;
+            color: var(--accent);
+            margin-top: var(--space-md);
+        }
+
+        /* Contact Section */
+        .contact {
+            margin-top: var(--space-xl);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            text-align: center;
+            padding: var(--space-xl) var(--space-md);
+            border-radius: var(--radius-md);
+        }
+
+        .contact h2 {
+            margin-bottom: var(--space-md);
+        }
+
+        .contact-desc {
+            max-width: 600px;
+            margin: 0 auto var(--space-lg);
+            opacity: 0.9;
+        }
+
+        .contact-buttons {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+        }
+
+        .contact-btn {
+            background: white;
+            color: var(--primary);
+        }
+
+        .contact-btn:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #f1f3f5;
+            padding: var(--space-md) 0;
+            margin-top: var(--space-xl);
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .footer-text {
+            color: var(--text-muted);
+            margin-bottom: var(--space-sm);
+        }
+
+        .social-links {
+            display: flex;
+            gap: var(--space-sm);
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: white;
+            color: var(--text-dark);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+            background-color: var(--primary);
+            color: white;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Media Queries */
+        @media (max-width: 992px) {
+            .hero-content {
+                flex-direction: column-reverse;
+                text-align: center;
+            }
+
+            .hero-description {
+                margin: 0 auto var(--space-md);
+            }
+
+            .about-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .profile-img {
+                width: 280px;
+                height: 280px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            section {
+                padding: var(--space-lg) var(--space-sm);
+            }
+
+            .hamburger {
+                display: block;
+                position: relative;
+                width: 30px;
+                height: 20px;
+            }
+
+            .hamburger span {
+                position: absolute;
+                width: 100%;
+                height: 2px;
+                background-color: var(--text-dark);
+                transition: var(--transition);
+            }
+
+            .hamburger span:nth-child(1) {
+                top: 0;
+            }
+
+            .hamburger span:nth-child(2) {
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            .hamburger span:nth-child(3) {
+                bottom: 0;
+            }
+
+            .menu-toggle {
+                display: none;
+            }
+
+            .menu-toggle:checked ~ .hamburger span:nth-child(1) {
+                top: 50%;
+                transform: translateY(-50%) rotate(45deg);
+            }
+
+            .menu-toggle:checked ~ .hamburger span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .menu-toggle:checked ~ .hamburger span:nth-child(3) {
+                bottom: 50%;
+                transform: translateY(50%) rotate(-45deg);
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                height: 100vh;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: var(--space-md);
+                background-color: white;
+                box-shadow: var(--shadow-lg);
+                transition: var(--transition);
+                z-index: 1000;
+            }
+
+            .menu-toggle:checked ~ .nav-links {
+                right: 0;
+            }
+
+            .nav-links li {
+                margin: 0;
+            }
+
+            .nav-link {
+                font-size: 1.2rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .contact-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+   <header>
+        <nav class="navbar container">
+            <a href="#" class="logo">Adam<span>Mosseri</span></a>
+            <input type="checkbox" id="menu-toggle" class="menu-toggle">
+            <label for="menu-toggle" class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+            <ul class="nav-links">
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#projects" class="nav-link">Initiatives</a></li>
+                <li><a href="#skills" class="nav-link">Expertise</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <div class="hero-text">
+                <p class="hero-subtitle">Hi, I'm Adam Mosseri</p>
+                <h1 class="headline">CEO of Instagram. Product Visionary. Design Enthusiast.</h1>
+                <p class="hero-description">Leading Instagram's mission to bring people closer to the people and things they love.</p>
+                <a href="#projects" class="btn cta-btn">See My Work</a>
+            </div>
+            <div class="hero-image">
+                <img src="C:\Users\icon\Desktop\Brand\insta.webp" alt="Adam Mosseri" class="profile-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>My Focus Areas</h2>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">✨</div>
+                    <h3 class="service-title">Product Innovation</h3>
+                    <p class="service-desc">Pioneering new features that transform how we connect.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🤖</div>
+                    <h3 class="service-title">AI Integration</h3>
+                    <p class="service-desc">Implementing intelligent solutions to enhance user experience.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🚀</div>
+                    <h3 class="service-title">Platform Growth</h3>
+                    <p class="service-desc">Scaling Instagram to billions of users worldwide.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">💰</div>
+                    <h3 class="service-title">Creator Economy</h3>
+                    <p class="service-desc">Building tools that help creators thrive and monetize.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+        <div class="container">
+            <div class="section-title">
+                <h2>Key Initiatives</h2>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-img" style="background-image: url('reel.jfif');"></div>
+                    <div class="project-content">
+                        <h3 class="project-title">Instagram Reels</h3>
+                        <p class="project-desc">Revolutionizing short-form video content creation and discovery on Instagram.</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Video</span>
+                            <span class="tech-tag">Creator Tools</span>
+                            <span class="tech-tag">Engagement</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="btn btn-outline">Case Study</a>
+                            <a href="#" class="btn">Platform</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-img" style="background-image: url('policy.jfif');"></div>
+                    <div class="project-content">
+                        <h3 class="project-title">Safety & Well-being</h3>
+                        <p class="project-desc">Implementing features and policies that protect users and promote positive interactions.</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Community</span>
+                            <span class="tech-tag">Safety</span>
+                            <span class="tech-tag">Mental Health</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="btn btn-outline">Research</a>
+                            <a href="#" class="btn">Initiatives</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-img" style="background-image: url('ccreatormarket.webp');"></div>
+                    <div class="project-content">
+                        <h3 class="project-title">Creator Marketplace</h3>
+                        <p class="project-desc">Building an ecosystem where creators and brands can collaborate effectively.</p>
+                        <div class="tech-tags">
+                            <span class="tech-tag">Monetization</span>
+                            <span class="tech-tag">Partnerships</span>
+                            <span class="tech-tag">Analytics</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="btn btn-outline">Overview</a>
+                            <a href="#" class="btn">Platform</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills" id="skills">
+        <div class="container">
+            <div class="section-title">
+                <h2>Areas of Expertise</h2>
+            </div>
+            <div class="skills-container">
+                <span class="skill-pill">Product Management</span>
+                <span class="skill-pill">UX Design</span>
+                <span class="skill-pill">Business Strategy</span>
+                <span class="skill-pill">Team Leadership</span>
+                <span class="skill-pill">Platform Growth</span>
+                <span class="skill-pill">Content Strategy</span>
+                <span class="skill-pill">User Safety</span>
+                <span class="skill-pill">Creator Economy</span>
+                <span class="skill-pill">Social Media</span>
+                <span class="skill-pill">Technology Innovation</span>
+                <span class="skill-pill">Public Speaking</span>
+                <span class="skill-pill">AI Integration</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>About Me</h2>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>As CEO of Instagram, I lead a global team dedicated to connecting over a billion people worldwide through photos, videos, and stories. Prior to heading Instagram, I spent 10 years at Facebook (now Meta) where I helped build News Feed and worked across product and design teams.</p>
+                    
+                    <div class="quote">
+                        Our mission is to bring people closer to the people and things they love. Every product decision we make is guided by this north star.
+                    </div>
+                    
+                    <p>I'm passionate about building products that are simple yet impactful, and creating experiences that serve communities worldwide. My focus is on leading Instagram through its next phase of growth while ensuring it remains a safe, positive place for self-expression and connection.</p>
+                    
+                    <div class="signature">Adam Mosseri</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2>Let's connect — on Instagram or anywhere else.</h2>
+            <p class="contact-desc">I'm always interested in discussing the future of social media, creator economics, product design, and how technology can bring people together.</p>
+            <div class="contact-buttons">
+                <a href="#" class="btn contact-btn">Follow on Instagram</a>
+                <a href="#" class="btn contact-btn">Speaking Inquiries</a>
+                <a href="#" class="btn contact-btn">Press Contact</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <p class="footer-text">Adam Mosseri | CEO of Instagram | Building community through visual storytelling 📸</p>
+            <div class="social-links">
+                <a href="#" class="social-link">
+                    <i>IG</i>
+                </a>
+                <a href="#" class="social-link">
+                    <i>TW</i>
+                </a>
+                <a href="#" class="social-link">
+                    <i>LI</i>
+                </a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

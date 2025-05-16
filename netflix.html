@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ted Sarandos | CEO & Developer</title>
+    <style>
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', system-ui, -apple-system, sans-serif;
+            background-color: #000;
+            color: #fff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        section {
+            padding: 5rem 2rem;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            color: #ccc;
+            font-size: 1.1rem;
+        }
+
+        /* Header & Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+            padding: 1.5rem 2rem;
+            z-index: 100;
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            background-color: rgba(0,0,0,0.9);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #e50914;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #fff;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #e50914;
+        }
+
+        /* Hamburger Menu */
+        .menu-toggle {
+            display: none;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background-color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-block;
+            background-color: #e50914;
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-right: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .btn:hover {
+            box-shadow: 0 0 15px rgba(229, 9, 20, 0.8);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid #e50914;
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(229, 9, 20, 0.2);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 0;
+            background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(229,9,20,0.3) 100%);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(229,9,20,0.2) 0%, rgba(0,0,0,0.9) 70%);
+            z-index: 0;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .shape {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: rgba(229, 9, 20, 0.15);
+            filter: blur(120px);
+            z-index: 0;
+        }
+
+        .shape-1 {
+            top: -200px;
+            right: -100px;
+        }
+
+        .shape-2 {
+            bottom: -150px;
+            left: -100px;
+            background: rgba(229, 9, 20, 0.1);
+            width: 400px;
+            height: 400px;
+        }
+
+        /* Projects Section */
+        .projects {
+            background-color: #0b0b0b;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            position: relative;
+            height: 200px;
+            border-radius: 4px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        .project-card:hover {
+            transform: scale(1.05);
+        }
+
+        .project-card:hover .project-info {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .project-thumb {
+            width: 100%;
+            height: 100%;
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-weight: bold;
+        }
+
+        .project-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .project-title {
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        .project-tags {
+            font-size: 0.8rem;
+            color: #ccc;
+        }
+
+        /* Skills Section */
+        .skills {
+            background-color: #111;
+        }
+
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .skill-pill {
+            background-color: #1a1a1a;
+            color: #ccc;
+            padding: 0.7rem 1.5rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .skill-pill:hover {
+            background-color: #e50914;
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 0 10px rgba(229, 9, 20, 0.6);
+        }
+
+        /* About Section */
+        .about {
+            background: linear-gradient(45deg, #0b0b0b 0%, #1a1a1a 100%);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .about-image {
+            height: 400px;
+            border-radius: 4px;
+            overflow: hidden;
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-weight: bold;
+        }
+
+        .about-text {
+            padding-right: 2rem;
+        }
+
+        .quote {
+            font-size: 1.8rem;
+            font-style: italic;
+            margin: 2rem 0;
+            padding-left: 1.5rem;
+            border-left: 4px solid #e50914;
+            line-height: 1.4;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, #0b0b0b 0%, #2d0306 100%);
+            text-align: center;
+            padding: 8rem 2rem;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            background-color: #080808;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .testimonial-slider {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background-color: #141414;
+            border-radius: 4px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(229, 9, 20, 0.2);
+        }
+
+        .testimonial-header {
+            padding: 1rem 1.5rem;
+            background-color: #1a1a1a;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .testimonial-rating {
+            display: flex;
+            align-items: center;
+        }
+
+        .star {
+            color: #646464;
+            font-size: 1.2rem;
+            margin-right: 2px;
+        }
+
+        .star.filled {
+            color: #e50914;
+        }
+
+        .star.half {
+            position: relative;
+            color: #646464;
+        }
+
+        .star.half:before {
+            content: "★";
+            position: absolute;
+            color: #e50914;
+            width: 50%;
+            overflow: hidden;
+        }
+
+        .rating-number {
+            margin-left: 5px;
+            font-weight: bold;
+            color: #e50914;
+        }
+
+        .trending-badge {
+            background-color: #e50914;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .trending-number {
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-right: 5px;
+        }
+
+        .testimonial-content {
+            padding: 1.5rem;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .company-logo {
+            width: 60px;
+            height: 40px;
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-weight: bold;
+            font-size: 0.9rem;
+            border-radius: 3px;
+        }
+
+        .author-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .author-name {
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .author-title {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        /* Process Section */
+        .process {
+            background: linear-gradient(to right, #0b0b0b, #1a0305, #0b0b0b);
+            position: relative;
+        }
+
+        .process-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .process-card {
+            background-color: rgba(20, 20, 20, 0.7);
+            border-radius: 4px;
+            padding: 2rem;
+            position: relative;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .process-card:hover {
+            background-color: rgba(30, 30, 30, 0.9);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(229, 9, 20, 0.15);
+        }
+
+        .process-card:hover .process-step {
+            color: #e50914;
+        }
+
+        .process-step {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.1);
+            transition: color 0.3s ease;
+        }
+
+        .process-icon {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .icon-placeholder {
+            width: 80px;
+            height: 80px;
+            background-color: rgba(229, 9, 20, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            color: #e50914;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .process-card:hover .icon-placeholder {
+            background-color: rgba(229, 9, 20, 0.2);
+            transform: scale(1.1);
+        }
+
+        .process-title {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            position: relative;
+        }
+
+        .process-title:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -0.5rem;
+            width: 40px;
+            height: 3px;
+            background-color: #e50914;
+            transition: width 0.3s ease;
+        }
+
+        .process-card:hover .process-title:after {
+            width: 60px;
+        }
+
+        .process-description {
+            color: #aaa;
+            line-height: 1.6;
+        }
+
+        /* Responsive styles for new sections */
+        @media (max-width: 992px) {
+            .testimonial-slider, .process-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .testimonial-slider, .process-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <nav>
+            <a href="#" class="logo">TS</a>
+            <input type="checkbox" id="menu-toggle" class="menu-toggle">
+            <label for="menu-toggle" class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </label>
+            <ul class="nav-links">
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container hero-content">
+            <h1>Hi, I'm Ted Sarandos</h1>
+            <p class="hero-subtitle">CEO of Netflix & Developer crafting code that captivates</p>
+            <div class="hero-buttons">
+                <a href="#projects" class="btn">Watch My Work</a>
+                <a href="#contact" class="btn btn-outline">Hire Me</a>
+            </div>
+        </div>
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+        <div class="container">
+            <h2>Projects That Slap Harder Than Your Favorite Series</h2>
+            <div class="project-grid">
+                <div class="project-card">
+                    <div class="project-thumb">NETFLIX RECOMMENDATION ENGINE</div>
+                    <div class="project-info">
+                        <h3 class="project-title">AI-Driven Content Engine</h3>
+                        <div class="project-tags">Python • TensorFlow • Big Data</div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-thumb">STREAMING PROTOCOL OPTIMIZER</div>
+                    <div class="project-info">
+                        <h3 class="project-title">Next-Gen Streaming Tech</h3>
+                        <div class="project-tags">C++ • WebRTC • Cloud Infrastructure</div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-thumb">NETFLIX GLOBAL PLATFORM</div>
+                    <div class="project-info">
+                        <h3 class="project-title">International Content Hub</h3>
+                        <div class="project-tags">React • Node.js • Localization API</div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-thumb">CONTENT ACQUISITION DASHBOARD</div>
+                    <div class="project-info">
+                        <h3 class="project-title">Analytics Platform</h3>
+                        <div class="project-tags">Vue.js • GraphQL • D3.js</div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-thumb">NETFLIX PRODUCTION SUITE</div>
+                    <div class="project-info">
+                        <h3 class="project-title">Studio Management System</h3>
+                        <div class="project-tags">Angular • Firebase • AWS</div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-thumb">CONTENT ANALYTICS PLATFORM</div>
+                    <div class="project-info">
+                        <h3 class="project-title">Viewer Metrics Engine</h3>
+                        <div class="project-tags">Python • Apache Spark • Tableau</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills" id="skills">
+        <div class="container">
+            <h2>Tech Stack & Executive Skills</h2>
+            <div class="skills-grid">
+                <div class="skill-pill">Strategic Leadership</div>
+                <div class="skill-pill">Business Development</div>
+                <div class="skill-pill">Content Strategy</div>
+                <div class="skill-pill">Python</div>
+                <div class="skill-pill">JavaScript</div>
+                <div class="skill-pill">React</div>
+                <div class="skill-pill">Node.js</div>
+                <div class="skill-pill">AWS</div>
+                <div class="skill-pill">Big Data</div>
+                <div class="skill-pill">Machine Learning</div>
+                <div class="skill-pill">API Design</div>
+                <div class="skill-pill">Cloud Computing</div>
+                <div class="skill-pill">Global Distribution</div>
+                <div class="skill-pill">Market Analysis</div>
+                <div class="skill-pill">Content Licensing</div>
+                <div class="skill-pill">Team Management</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container about-content">
+            <div class="about-text">
+                <h2>About Me</h2>
+                <p>As CEO of Netflix, I lead one of the world's largest entertainment services with over 200 million paid memberships spanning 190+ countries. Beyond my executive role, I maintain my passion for development and technology that drives our platform forward.</p>
+                <p>I've been instrumental in Netflix's evolution from a DVD rental business to a global streaming powerhouse and now a major studio. My dual background in business leadership and technical innovation gives me a unique perspective on creating products that truly resonate with audiences worldwide.</p>
+                <div class="quote">
+                    "Great UI is not built. It's directed — just like our best content."
+                </div>
+                <p>When I'm not overseeing Netflix's next groundbreaking series or film, you'll find me coding, experimenting with new technologies, and thinking about the future of entertainment delivery platforms.</p>
+            </div>
+            <div class="about-image">
+                 <img src="C:\Users\icon\Desktop\Brand\netflix.jpg" alt="Your Name">            </div>
+        </div>
+    </section>
+
+    <!-- Now Streaming Testimonials -->
+    
+    <!-- Behind the Scenes Process Section -->
+    <section class="process" id="process">
+        <div class="container">
+            <h2>Behind the Scenes: My Process</h2>
+            <div class="process-grid">
+                <div class="process-card">
+                    <div class="process-step">01</div>
+                    <div class="process-icon">
+                        <div class="icon-placeholder">DISCOVERY</div>
+                    </div>
+                    <h3 class="process-title">Discovery</h3>
+                    <p class="process-description">Just like scouting for the next hit series, I begin with thorough research and discovery to understand your audience, goals, and unique challenges.</p>
+                </div>
+                
+                <div class="process-card">
+                    <div class="process-step">02</div>
+                    <div class="process-icon">
+                        <div class="icon-placeholder">STRATEGY</div>
+                    </div>
+                    <h3 class="process-title">Strategy</h3>
+                    <p class="process-description">Developing the right approach is like crafting a show's story arc. I create a strategic roadmap that aligns technology choices with your business objectives.</p>
+                </div>
+                
+                <div class="process-card">
+                    <div class="process-step">03</div>
+                    <div class="process-icon">
+                        <div class="icon-placeholder">PRODUCTION</div>
+                    </div>
+                    <h3 class="process-title">Production</h3>
+                    <p class="process-description">This is where code meets creativity. With agile methodologies and consistent communication, I develop solutions that bring your vision to life.</p>
+                </div>
+                
+                <div class="process-card">
+                    <div class="process-step">04</div>
+                    <div class="process-icon">
+                        <div class="icon-placeholder">LAUNCH</div>
+                    </div>
+                    <h3 class="process-title">Launch</h3>
+                    <p class="process-description">Like a global Netflix release, your solution goes live with careful planning, thorough testing, and strategic rollout to ensure maximum impact.</p>
+                </div>
+                
+                <div class="process-card">
+                    <div class="process-step">05</div>
+                    <div class="process-icon">
+                        <div class="icon-placeholder">ANALYTICS</div>
+                    </div>
+                    <h3 class="process-title">Analytics</h3>
+                    <p class="process-description">Just as we track viewership metrics, I implement analytics to measure performance, gather insights, and identify opportunities for improvement.</p>
+                </div>
+                
+                <div class="process-card">
+                    <div class="process-step">06</div>
+                    <div class="process-icon">
+                        <div class="icon-placeholder">ITERATION</div>
+                    </div>
+                    <h3 class="process-title">Iteration</h3>
+                    <p class="process-description">Like renewing a successful series, I continue to refine and enhance your solution based on real-world performance and evolving needs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" id="contact">
+        <div class="container">
+            <h2>Let's make your next product binge-worthy.</h2>
+            <div class="cta-buttons">
+                <a href="#" class="btn">Download Resume</a>
+                <a href="#" class="btn btn-outline">Let's Collaborate</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="#" class="social-icon">Instagram</a>
+                <a href="#" class="social-icon">X</a>
+                            </div>
+            <p class="footer-text">Built by Swanandi Deshmukh | No copyrights</p>
+        </div>
+    </footer>
+</body>
+</html>
